@@ -22,3 +22,8 @@ class TestURLSafeTimedSerializer(TestURLSafeSerializer, TestTimedSerializer):
     @pytest.fixture()
     def serializer_factory(self):
         return partial(URLSafeTimedSerializer, secret_key="secret-key")
+
+
+def test_url_safe_round_trip_non_ascii():
+    s = URLSafeSerializer("secret")
+    assert s.loads(s.dumps("héllo wörld ✓")) == "héllo wörld ✓"
